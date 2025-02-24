@@ -1,0 +1,1 @@
+{"version":1,"contracts":[{"id":"jbard5g7m7l68","package_name":"example","contract_name":"Token","module_path":"example::token::Token","artifacts":{"sierra":"example_unittest_Token.test.contract_class.json","casm":null}}]}
