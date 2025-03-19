@@ -2,20 +2,11 @@
 version = 1
 
 [[package]]
-name = "contracts_commons"
-version = "0.1.0"
-source = "git+https://github.com/starkware-libs/starknet-staking#9c9e14e5b4f5ec908c44b68d13deb2f63fbdf44b"
-dependencies = [
- "openzeppelin",
-]
-
-[[package]]
 name = "example"
 version = "0.1.0"
 dependencies = [
  "openzeppelin",
  "snforge_std",
- "staking",
 ]
 
 [[package]]
@@ -138,22 +129,13 @@ checksum = "sha256:44f32d242af1e43982decc49c563e613a9b67ade552f5c3d5cde504e92f74
 
 [[package]]
 name = "snforge_scarb_plugin"
-version = "0.37.0"
-source = "git+https://github.com/foundry-rs/starknet-foundry?tag=v0.37.0#05c840d1b4367088296225284e2d722256778f58"
+version = "0.34.0"
+source = "git+https://github.com/foundry-rs/starknet-foundry?tag=v0.34.0#d6976d4635cbe69bd199fd502788c469d408ed2d"
 
 [[package]]
 name = "snforge_std"
-version = "0.37.0"
-source = "git+https://github.com/foundry-rs/starknet-foundry?tag=v0.37.0#05c840d1b4367088296225284e2d722256778f58"
+version = "0.34.0"
+source = "git+https://github.com/foundry-rs/starknet-foundry?tag=v0.34.0#d6976d4635cbe69bd199fd502788c469d408ed2d"
 dependencies = [
  "snforge_scarb_plugin",
-]
-
-[[package]]
-name = "staking"
-version = "1.9.1"
-source = "git+https://github.com/starkware-libs/starknet-staking#9c9e14e5b4f5ec908c44b68d13deb2f63fbdf44b"
-dependencies = [
- "contracts_commons",
- "openzeppelin",
 ]
