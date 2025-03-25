@@ -27,15 +27,21 @@ fn deploy_share_token() -> (ITokenDispatcher, ContractAddress) {
 }
 
 #[test]
-fn test_deploy() {
+fn test1() {
     let (share_token, token_address) = deploy_share_token();
     let new_owner: ContractAddress = contract_address_const::<'new_owner'>();
     let owner: ContractAddress = contract_address_const::<'owner'>();
     assert!(share_token.owner() == owner);
+    start_cheat_caller_address(token_address, owner);
+    let amount: u256 = 100000;
+    let result = share_token.mint(new_owner, amount);
+    let balance = share_token.balance_of(new_owner);
+    assert_eq!(balance, amount);
+
     let vault_class = declare("Vault").unwrap().contract_class();
     let mut calldata = ArrayTrait::new();
     share_token.serialize(ref calldata);
-    //start_cheat_caller_address(token_address, owner);
+
     start_cheat_caller_address_global(owner);
     let (vault_address, _) = vault_class.deploy(@calldata).unwrap();
     let vault_dispatcher = IVaultDispatcher { contract_address: vault_address };
@@ -45,5 +51,30 @@ fn test_deploy() {
     share_token.transfer_ownership(vault_address);
     let share_owner = share_token.owner();
     assert_eq!(share_owner, vault_address);
+    // vault address is the owner 
     vault_dispatcher.deposit(amount: 10000000);
 }
+#[test]
+fn test2() {
+    let (share_token, token_address) = deploy_share_token();
+    let new_owner: ContractAddress = contract_address_const::<'new_owner'>();
+    let owner: ContractAddress = contract_address_const::<'owner'>();
+    assert!(share_token.owner() == owner);
+    start_cheat_caller_address(token_address, owner);
+    let amount: u256 = 100000;
+    let result = share_token.mint(new_owner, amount);
+    let balance = share_token.balance_of(new_owner);
+    assert_eq!(balance, amount);
+
+    let vault_class = declare("Vault").unwrap().contract_class();
+    let mut calldata = ArrayTrait::new();
+    share_token.serialize(ref calldata);
+
+    start_cheat_caller_address_global(owner);
+    let (vault_address, _) = vault_class.deploy(@calldata).unwrap();
+    let vault_dispatcher = IVaultDispatcher { contract_address: vault_address };
+  
+    // share token is still the owner address
+    vault_dispatcher.deposit(amount: 10000000);
+}
+
