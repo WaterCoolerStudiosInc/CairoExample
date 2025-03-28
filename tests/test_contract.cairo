@@ -32,7 +32,7 @@ fn test1() {
     let new_owner: ContractAddress = contract_address_const::<'new_owner'>();
     let owner: ContractAddress = contract_address_const::<'owner'>();
     assert!(share_token.owner() == owner);
-    start_cheat_caller_address(token_address, owner);
+    start_cheat_caller_address_global(owner);
     let amount: u256 = 100000;
     let result = share_token.mint(new_owner, amount);
     let balance = share_token.balance_of(new_owner);
@@ -42,7 +42,6 @@ fn test1() {
     let mut calldata = ArrayTrait::new();
     share_token.serialize(ref calldata);
 
-    start_cheat_caller_address_global(owner);
     let (vault_address, _) = vault_class.deploy(@calldata).unwrap();
     let vault_dispatcher = IVaultDispatcher { contract_address: vault_address };
 
@@ -52,6 +51,7 @@ fn test1() {
     let share_owner = share_token.owner();
     assert_eq!(share_owner, vault_address);
     // vault address is the owner 
+    snforge_std::stop_cheat_caller_address_global();
     vault_dispatcher.deposit(amount: 10000000);
 }
 #[test]
